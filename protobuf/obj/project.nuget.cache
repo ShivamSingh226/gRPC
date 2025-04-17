@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "mJXmouSI20w=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dell\\Downloads\\gRPC\\protobuf\\protobuf.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dell\\.nuget\\packages\\google.protobuf\\3.30.2\\google.protobuf.3.30.2.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\grpc.tools\\2.71.0\\grpc.tools.2.71.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,17 @@
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\protobuf.exe
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\protobuf.deps.json
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\protobuf.runtimeconfig.json
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\protobuf.dll
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\protobuf.pdb
+c:\Users\dell\Downloads\gRPC\protobuf\bin\Debug\net8.0\Google.Protobuf.dll
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.csproj.AssemblyReference.cache
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.AssemblyInfoInputs.cache
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.AssemblyInfo.cs
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.csproj.CoreCompileInputs.cache
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.csproj.Up2Date
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.dll
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\refint\protobuf.dll
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.pdb
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\protobuf.genruntimeconfig.cache
+c:\Users\dell\Downloads\gRPC\protobuf\obj\Debug\net8.0\ref\protobuf.dll

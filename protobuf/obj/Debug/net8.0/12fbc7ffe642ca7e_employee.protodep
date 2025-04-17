@@ -1,0 +1,2 @@
+obj\Debug\net8.0\protos/Employee.cs: C:/Users/dell/.nuget/packages/grpc.tools/2.71.0/build/native/include/google/protobuf/timestamp.proto\
+ protos/employee.proto

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("groomclient")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6e53937fa74c8edc3d4162acd97fc33514a29cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2e213fdb348afb8283c928dd9533d3d6be5b537")]
 [assembly: System.Reflection.AssemblyProductAttribute("groomclient")]
 [assembly: System.Reflection.AssemblyTitleAttribute("groomclient")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

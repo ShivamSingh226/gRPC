@@ -16,7 +16,7 @@ Console.WriteLine($"Joining room {room}...");
 
 try
 {
-    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username });
+    var joinResponse = client.RegisterToRoom(new RoomRegistrationRequest() { RoomName = room, UserName = username }, deadline: DateTime.UtcNow.AddSeconds(5));
     if (joinResponse.Joined)
     {
         Console.WriteLine("Joined successfully!");
@@ -31,14 +31,18 @@ try
         return;
     }
 }
-catch (Exception ex)
+catch (Grpc.Core.RpcException ex)
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine($"Error joining room {room}. Error: {ex.Message}");
-    Console.ForegroundColor = ConsoleColor.Gray;
-    Console.WriteLine("Press any key to close the window.");
-    Console.Read();
-    return;
+    if (ex.StatusCode == Grpc.Core.StatusCode.DeadlineExceeded)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Timeout exceeded while joining this room {room}. Error: {ex.Message}");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Press any key to close the window.");
+        Console.Read();
+        return;
+    }
+
 }
 
 Console.WriteLine($"Press any key to enter the {room} room.");
@@ -46,7 +50,7 @@ Console.Read();
 Console.Clear();
 
 // MAKE A CALL TO THE StartChat METHOD
-var call=client.StartChat();
+var call = client.StartChat();
 var cts = new CancellationTokenSource();
 
 var promptText = "Type your message: ";
@@ -57,13 +61,25 @@ var task = Task.Run(async () =>
 
     while (true)
     {
-        // TYPE HERE THE CODE FOR RECEIVING MESSAGES FROM THE SERVER
-        if(await call.ResponseStream.MoveNext(cts.Token)){
-            var msg=call.ResponseStream.Current;
-            var left=Console.CursorLeft-promptText.Length;
-            PrintMessage(msg);
+        try
+        {
+            // TYPE HERE THE CODE FOR RECEIVING MESSAGES FROM THE SERVER
+            if (await call.ResponseStream.MoveNext(cts.Token))
+            {
+                var msg = call.ResponseStream.Current;
+                var left = Console.CursorLeft - promptText.Length;
+                PrintMessage(msg);
+            }
+            await Task.Delay(500);
         }
-        await Task.Delay(500);
+        catch (Grpc.Core.RpcException ex)
+        {
+            if (ex.StatusCode == Grpc.Core.StatusCode.Cancelled)
+            {
+                Console.WriteLine("Cancelled");
+                break;
+            }
+        }
     }
 });
 
@@ -72,15 +88,22 @@ while (true)
 {
     var input = Console.ReadLine();
     RestoreInputCursor();
+    if (input == "X")
+    {
+        cts.Cancel();
+        Console.WriteLine("Chat cancelled");
+    }
+    else
+    {
+        // TYPE HERE THE CODE FOR SENDING MESSAGES TO THE SERVER
+        var reqMsg = new ChatMessage();
+        reqMsg.Contents = input;
+        reqMsg.MsgTime = Timestamp.FromDateTime(DateTime.UtcNow);
+        reqMsg.Room = room;
+        reqMsg.User = username;
+        call.RequestStream.WriteAsync(reqMsg);
+    }
 
-    // TYPE HERE THE CODE FOR SENDING MESSAGES TO THE SERVER
-    var reqMsg=new ChatMessage();
-    reqMsg.Contents=input;
-    reqMsg.MsgTime=Timestamp.FromDateTime(DateTime.UtcNow);
-    reqMsg.Room=room;
-    reqMsg.User=username;
-    call.RequestStream.WriteAsync(reqMsg);
-    
 }
 
 // Utilities methods for positioning the cursor
@@ -92,7 +115,8 @@ void PrintMessage(ChatMessage msg)
     Console.SetCursorPosition(promptText.Length + left, 0);
 }
 
-void RestoreInputCursor()  {
+void RestoreInputCursor()
+{
     Console.SetCursorPosition(promptText.Length - 1, 0);
     Console.Write("                                    ");
     Console.SetCursorPosition(promptText.Length - 1, 0);

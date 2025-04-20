@@ -14,6 +14,7 @@ public class GroomService : Groom.GroomBase
 
     public override async Task<RoomRegistrationResponse> RegisterToRoom(RoomRegistrationRequest request, ServerCallContext context)
     {
+        
         UsersQueues.CreateUserQueue(request.RoomName, request.UserName);
         var resp = new RoomRegistrationResponse() { Joined = true };
         return await Task.FromResult(resp);
@@ -35,6 +36,9 @@ public class GroomService : Groom.GroomBase
             if (MessagesQueue.GetMessagesCount() > 0)
             {
                 await streamWriter.WriteAsync(MessagesQueue.GetNextMessage());
+            }
+            if(UsersQueues.GetAdminQueueMessageCount()>0){
+                await streamWriter.WriteAsync(UsersQueues.GetNextAdminMessage());
             }
             //await streamWriter.WriteAsync(new ReceivedMessage{MsgTime=Timestamp.FromDateTime(DateTime.UtcNow), User="1", Contents="Test msg"});
             await Task.Delay(500);
@@ -73,6 +77,9 @@ public class GroomService : Groom.GroomBase
         {
             while (true)
             {
+                if(context.CancellationToken.IsCancellationRequested){
+                    return;
+                }
                 var userMsg = UsersQueues.GetMessageForUser(userName);
                 if (userMsg != null)
                 {
